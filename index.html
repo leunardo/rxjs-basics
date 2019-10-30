@@ -379,21 +379,7 @@ subscription.unsubscribe();
 <blockquote>
 <p>O Subject é um tipo especial de Observable que permite que o seu valor seja compartilhado com diversos Observers</p>
 </blockquote>
-<p>Todo Subject é um <code>Observable</code> e um <code>Observer</code>. Isso nos dá acessos aos métodos:</p>
-<ul>
-<li>observable
-<ul>
-<li>subscribe</li>
-</ul>
-</li>
-<li>observer
-<ul>
-<li>next</li>
-<li>complete</li>
-<li>error</li>
-</ul>
-</li>
-</ul>
+<p>Todo Subject é um <code>Observable</code> e um <code>Observer</code>.</p>
 
             </section>
         
@@ -426,8 +412,8 @@ subject.next(2);
 
 
     
+    <section>
         <section >
-            
             <h3><a id="user-content-behavior-subject" class="anchor" href="#behavior-subject" aria-hidden="true"></a>Behavior Subject</h3>
 <h4><a id="user-content-um-tipo-especial-de-subject" class="anchor" href="#um-tipo-especial-de-subject" aria-hidden="true"></a>Um tipo especial de Subject</h4>
 <blockquote>
@@ -436,14 +422,9 @@ subject.next(2);
 <p>Pode ser utilizado como uma técnica de gerenciamento de estado, combinando com o operador <code>scan</code>.</p>
 
             </section>
-    
-
-
-
-    
-        <section >
-            
-            <h3><a id="user-content-behavior-subject-1" class="anchor" href="#behavior-subject-1" aria-hidden="true"></a>Behavior Subject</h3>
+        
+            <section >
+                <h3><a id="user-content-behavior-subject-1" class="anchor" href="#behavior-subject-1" aria-hidden="true"></a>Behavior Subject</h3>
 <pre><code class="language-js">const todoList = new BehaviorSubject([]);
 todoList.value // [];
 
@@ -457,6 +438,9 @@ todoList.next(['homework']);
 </code></pre>
 
             </section>
+        
+
+    </section>
     
 
 
@@ -514,7 +498,7 @@ observable
             </section>
         
             <section >
-                <h2><a id="user-content-pilha-de-execução-do-javascript" class="anchor" href="#pilha-de-execução-do-javascript" aria-hidden="true"></a>Pilha de execução do JavaScript</h2>
+                <h4><a id="user-content-pilha-de-execução-do-javascript" class="anchor" href="#pilha-de-execução-do-javascript" aria-hidden="true"></a>Pilha de execução do JavaScript</h4>
 <p><img src="https://blog.risingstack.com/content/images/2019/01/Execution_timing_event_loop_with_microtask_queue.svg"></img></p>
 
             </section>
