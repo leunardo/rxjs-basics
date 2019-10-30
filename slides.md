@@ -93,14 +93,7 @@ subscription.unsubscribe();
 
 > O Subject é um tipo especial de Observable que permite que o seu valor seja compartilhado com diversos Observers
 
-Todo Subject é um `Observable` e um `Observer`. Isso nos dá acessos aos métodos:
-
-- observable
-   - subscribe
-- observer
-   - next
-   - complete
-   - error
+Todo Subject é um `Observable` e um `Observer`.
 
 --
 
@@ -134,7 +127,7 @@ subject.next(2);
 
 Pode ser utilizado como uma técnica de gerenciamento de estado, combinando com o operador `scan`.
 
----
+--
 
 ### Behavior Subject
 
@@ -192,7 +185,7 @@ observable
 
 --
 
-## Pilha de execução do JavaScript
+#### Pilha de execução do JavaScript
 
 <img src="https://blog.risingstack.com/content/images/2019/01/Execution_timing_event_loop_with_microtask_queue.svg"></img>
 
