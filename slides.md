@@ -174,13 +174,38 @@ observable
 
 ### Operadores
 
+- combineLatest
+- concat
+- from
+- of
+- debounceTime
+- filter
+- shareReplay
+- map
+- mergeMap
+- scan
+- tap
+
 ---
 
 ### Conceitos avançados
 
 --
 
+## Pilha de execução do JavaScript
+
+<img src="https://blog.risingstack.com/content/images/2019/01/Execution_timing_event_loop_with_microtask_queue.svg"></img>
+
+--
+
 ### Scheduler
+
+|Scheduler              |Context          |Description
+------------------------|-----------------|-------------
+|queueScheduler         |same macrotask   |*
+|asapScheduler          |same microtask   |promise.then
+|asyncScheduler         |another microtask|setTimeout
+|animationFrameScheduler|another macrotask|before repaint
 
 ---
 
