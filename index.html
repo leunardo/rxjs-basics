@@ -348,30 +348,74 @@
             <section >
                 <h4><a id="user-content-observable" class="anchor" href="#observable" aria-hidden="true"></a>Observable</h4>
 <blockquote>
-<p>Observables are <strong>lazy</strong> Push collections of multiple values</p>
+<p>Observables são <strong>lazy</strong> push collections de múltiplos valores</p>
 </blockquote>
-<pre><code class="language-js">const observable = new Observable(subscriber =&gt; {
-    subscriber.next(1);
-    subscriber.next(1);
-    subscriber.next(1);
-    subscriber.complete();
+<pre><code class="language-js">const observable = new Observable(observer =&gt; {
+    observer.next(1);
+    observer.next(2);
+    observer.next(3);
+    observer.complete();
 });
 </code></pre>
 
             </section>
         
             <section >
-                <h3><a id="user-content-observer" class="anchor" href="#observer" aria-hidden="true"></a>Observer</h3>
-
-            </section>
-        
-            <section >
                 <h3><a id="user-content-subscription" class="anchor" href="#subscription" aria-hidden="true"></a>Subscription</h3>
+<blockquote>
+<p>A Subscription é um objeto que representa um recurso descartável, que geralmente é resultado da execução de um Observable.</p>
+</blockquote>
+<pre><code class="language-js">const subscription = observable.subscribe({
+    next: (x) =&gt; console.log(x)
+});
+
+subscription.unsubscribe();
+</code></pre>
 
             </section>
         
             <section >
                 <h3><a id="user-content-subject" class="anchor" href="#subject" aria-hidden="true"></a>Subject</h3>
+<blockquote>
+<p>O Subject é um tipo especial de Observable que permite que o seu valor seja compartilhado com diversos Observers</p>
+</blockquote>
+<p>Todo Subject é um <code>Observable</code> e um <code>Observer</code>. Isso nos dá acessos aos métodos:</p>
+<ul>
+<li>observable
+<ul>
+<li>subscribe</li>
+</ul>
+</li>
+<li>observer
+<ul>
+<li>next</li>
+<li>complete</li>
+<li>error</li>
+</ul>
+</li>
+</ul>
+
+            </section>
+        
+            <section >
+                <h3><a id="user-content-subject-1" class="anchor" href="#subject-1" aria-hidden="true"></a>Subject</h3>
+<pre><code class="language-js">const subject = new Subject&lt;number&gt;();
+const logOnNext = (observerName) =&gt; ({
+    next: (v) =&gt; console.log(`${observerName}: ${v}`)
+});
+
+subject.subscribe(logOnNext('observerA'));
+subject.subscribe(logOnNext('observerB'));
+ 
+subject.next(1);
+subject.next(2);
+
+// Logs:
+// observerA: 1
+// observerB: 1
+// observerA: 2
+// observerB: 2
+</code></pre>
 
             </section>
         
@@ -384,7 +428,55 @@
     
         <section >
             
+            <h3><a id="user-content-behavior-subject" class="anchor" href="#behavior-subject" aria-hidden="true"></a>Behavior Subject</h3>
+<h4><a id="user-content-um-tipo-especial-de-subject" class="anchor" href="#um-tipo-especial-de-subject" aria-hidden="true"></a>Um tipo especial de Subject</h4>
+<blockquote>
+<p>Armazena o último valor emitido para os seus Observers, and sempre que algum novo Observer se inscreve, ele imediatamente recebe o valor atual do BehaviorSubject.</p>
+</blockquote>
+<p>Pode ser utilizado como uma técnica de gerenciamento de estado, combinando com o operador <code>scan</code>.</p>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h3><a id="user-content-behavior-subject-1" class="anchor" href="#behavior-subject-1" aria-hidden="true"></a>Behavior Subject</h3>
+<pre><code class="language-js">const todoList = new BehaviorSubject([]);
+todoList.value // [];
+
+todoList.subscribe({
+    next: (todos) =&gt; console.log('I have left: ' + todos)
+});
+// I have left: []
+
+todoList.next(['homework']);
+// I have left ['homework']
+</code></pre>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
             <h3><a id="user-content-função-pipe" class="anchor" href="#função-pipe" aria-hidden="true"></a>Função <em>pipe</em></h3>
+<p>A função <code>pipe</code> está no Observable e permite que seja utilizado o <code>pipeline pattern</code> para a transformação do valor emitido dentro do Observable.</p>
+<p>Exemplo utilizando <code>pipe</code> com o operador <code>map</code>:</p>
+<pre><code class="language-js">const observable = new Observable(observer =&gt; {
+    observer.next(10);
+    observer.complete();
+});
+
+observable
+    .pipe(map(value =&gt; value * value))
+    .subscribe(value =&gt; console.log(value));
+// 100
+</code></pre>
 
             </section>
     
@@ -395,6 +487,19 @@
         <section >
             
             <h3><a id="user-content-operadores" class="anchor" href="#operadores" aria-hidden="true"></a>Operadores</h3>
+<ul>
+<li>combineLatest</li>
+<li>concat</li>
+<li>from</li>
+<li>of</li>
+<li>debounceTime</li>
+<li>filter</li>
+<li>shareReplay</li>
+<li>map</li>
+<li>mergeMap</li>
+<li>scan</li>
+<li>tap</li>
+</ul>
 
             </section>
     
@@ -409,7 +514,44 @@
             </section>
         
             <section >
+                <h2><a id="user-content-pilha-de-execução-do-javascript" class="anchor" href="#pilha-de-execução-do-javascript" aria-hidden="true"></a>Pilha de execução do JavaScript</h2>
+<p><img src="https://blog.risingstack.com/content/images/2019/01/Execution_timing_event_loop_with_microtask_queue.svg"></img></p>
+
+            </section>
+        
+            <section >
                 <h3><a id="user-content-scheduler" class="anchor" href="#scheduler" aria-hidden="true"></a>Scheduler</h3>
+<table>
+<thead>
+<tr>
+<th>Scheduler</th>
+<th>Context</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>queueScheduler</td>
+<td>same macrotask</td>
+<td>*</td>
+</tr>
+<tr>
+<td>asapScheduler</td>
+<td>same microtask</td>
+<td>promise.then</td>
+</tr>
+<tr>
+<td>asyncScheduler</td>
+<td>another microtask</td>
+<td>setTimeout</td>
+</tr>
+<tr>
+<td>animationFrameScheduler</td>
+<td>another macrotask</td>
+<td>before repaint</td>
+</tr>
+</tbody>
+</table>
 
             </section>
         
